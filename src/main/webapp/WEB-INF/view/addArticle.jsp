@@ -6,32 +6,35 @@
       <title>Add article</title>
       <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
       <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap" rel="stylesheet">
       <script src="<c:url value='https://cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js'/>"></script>
       <style>
-      textarea
+      .content-textarea
       {
           border:1px solid #999999;
           width:100%;
           resize: vertical;
           margin:5px 0;
           padding:1%;
+          height:50%;
       }
       </style>
    </head>
    <body>
     <div class="grid-container">
-        <div class="header">
-        <h1 align=center>New article</h1>
-        </div>
+        <%@ include file="header.jsp" %>
         <div class="content">
          <form:form method="POST" action="${pageContext.request.contextPath}/addArticle" modelAttribute="article" id="articleForm">
                 <form:label path="name">Article name</form:label><br>
                 <form:input path="name"/>
                 <form:errors path="name" cssClass="error"/><br>
-                <form:label path="description">Description</form:label>
-                <form:textarea path="description" rows="10" cols="50"/>
+                <form:label path="description">Description</form:label><br>
+                <form:textarea path="description" rows="5" cols="50"/>
                 <form:errors path="description" cssClass="error"/>
-            <form:textarea path="content" rows="20%" cols="200%"/>
+            <form:textarea path="content" rows="20%" cols="200%" class="content-textarea"/>
             <form:errors path="content" cssClass="error"/><br>
             <fieldset>
                     <legend>Do you want to post an article right now?</legend>
