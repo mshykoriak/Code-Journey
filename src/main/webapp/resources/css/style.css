@@ -1,0 +1,24 @@
+      .grid-container {
+          display: grid;
+          grid-template-areas:
+              "header header"
+              "content content"
+              "footer footer";
+          grid-gap: 10px;
+      }
+      .header {
+          grid-area: header;
+          align:center;
+          background-color: #f0f0f0;
+      }
+      .content {
+          grid-area: content;
+          background-color: #f0f0f0;
+      }
+      .footer {
+          grid-area: footer;
+          background-color: #f0f0f0;
+      }
+      .error {
+          color:red;
+      }

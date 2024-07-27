@@ -1,11 +1,12 @@
 package com.mshykoriak.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -15,14 +16,20 @@ public class Article {
     @GeneratedValue()
     private Long id;
     @NotBlank(message = "Name is required")
-    @Size(min = 10, max = 100, message = "Name field length must be in range from 10 characters to 100")
+    @Column(nullable = false)
     private String name;
     @NotBlank(message = "Description is required")
-    @Size(min = 10, max = 100, message = "Description field length must be in range from 10 characters to 100")
+    @Column(nullable = false)
     private String description;
     @NotBlank(message = "Content is required")
+    @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
     private Date created = new Date();
+    private boolean draft = true;
+
+    public Article() {
+    }
 
     public Article(String name, String description, String content) {
         this.name = name;
@@ -70,4 +77,11 @@ public class Article {
         this.created = created;
     }
 
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
+    }
 }
