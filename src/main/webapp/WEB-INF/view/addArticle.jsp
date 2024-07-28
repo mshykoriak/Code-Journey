@@ -11,26 +11,16 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap" rel="stylesheet">
       <script src="<c:url value='https://cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js'/>"></script>
-      <style>
-      .content-textarea
-      {
-          border:1px solid #999999;
-          width:100%;
-          resize: vertical;
-          margin:5px 0;
-          padding:1%;
-          height:50%;
-      }
-      </style>
    </head>
    <body>
     <div class="grid-container">
-        <%@ include file="header.jsp" %>
+        <%@ include file="admin/header.jsp" %>
         <div class="content">
-         <form:form method="POST" action="${pageContext.request.contextPath}/addArticle" modelAttribute="article" id="articleForm">
-                <form:label path="name">Article name</form:label><br>
-                <form:input path="name"/>
-                <form:errors path="name" cssClass="error"/><br>
+         <form:form method="POST" action="${pageContext.request.contextPath}/admin/articles/edit" modelAttribute="article" id="articleForm">
+                <form:input type="hidden" path="id" value="${article.id}"/>
+                <form:label path="title">Title</form:label><br>
+                <form:input path="title"/>
+                <form:errors path="title" cssClass="error"/><br>
                 <form:label path="description">Description</form:label><br>
                 <form:textarea path="description" rows="5" cols="50"/>
                 <form:errors path="description" cssClass="error"/>
@@ -39,9 +29,9 @@
             <fieldset>
                     <legend>Do you want to post an article right now?</legend>
                     <label for="draft">Save in draft</label>
-                    <input type="radio" name="draft" id="draft" checked>
+                    <input type="radio" name="inDraft"  id="draft" value="true" <c:if test="${article.inDraft}">checked</c:if>>
                     <label for="post_now">Post now</label>
-                    <input type="radio" name="draft" id="post_now">
+                    <input type="radio" name="inDraft" id="post_now" value="false" <c:if test="${!article.inDraft}">checked</c:if>>
             </fieldset>
             <br>
          <button type="submit" class="ui-button ui-widget ui-corner-all">Submit</button>

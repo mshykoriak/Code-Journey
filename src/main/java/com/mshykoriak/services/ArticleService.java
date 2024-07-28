@@ -17,5 +17,6 @@ public interface ArticleService {
     Optional<Article> getArticleById(Long id);
     Article updateArticle(Article article);
     void deleteArticle(Long id);
+    void publishArticle(Long id);
 
 }

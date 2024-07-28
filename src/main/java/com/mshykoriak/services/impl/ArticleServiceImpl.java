@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,15 @@ import java.util.Optional;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository repository;
+
+
+    @Override
+    public void publishArticle(Long id) {
+        Article article = getArticleById(id).orElseThrow();
+        article.setInDraft(false);
+        article.setDatePublished(new Date());
+        repository.save(article);
+    }
 
     @Override
     public void createArticle(Article article) {
@@ -40,6 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long id) {
         repository.deleteById(id);
     }
+
 
     @Autowired
     public void setRepository(ArticleRepository repository) {

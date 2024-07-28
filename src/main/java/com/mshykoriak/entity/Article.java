@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
@@ -17,7 +16,7 @@ public class Article {
     private Long id;
     @NotBlank(message = "Name is required")
     @Column(nullable = false)
-    private String name;
+    private String title;
     @NotBlank(message = "Description is required")
     @Column(nullable = false)
     private String description;
@@ -25,14 +24,15 @@ public class Article {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private Date created = new Date();
-    private boolean draft = true;
+    private Date dateCreated = new Date();
+    private Date datePublished;
+    private boolean inDraft = true;
 
     public Article() {
     }
 
-    public Article(String name, String description, String content) {
-        this.name = name;
+    public Article(String title, String description, String content) {
+        this.title = title;
         this.description = description;
         this.content = content;
     }
@@ -45,12 +45,12 @@ public class Article {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -69,19 +69,27 @@ public class Article {
         this.content = content;
     }
 
-    public Date getCreated() {
-        return created;
+    public boolean isInDraft() {
+        return inDraft;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setInDraft(boolean inDraft) {
+        this.inDraft = inDraft;
     }
 
-    public boolean isDraft() {
-        return draft;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDraft(boolean draft) {
-        this.draft = draft;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDatePublished() {
+        return datePublished;
+    }
+
+    public void setDatePublished(Date datePublished) {
+        this.datePublished = datePublished;
     }
 }
