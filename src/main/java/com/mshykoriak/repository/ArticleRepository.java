@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * This is a simple repository for CRUD operations over article's entities.
+ * This is a simple repository for CRUD operations over article entity.
  *
  * @author Misha Shykoriak
  */

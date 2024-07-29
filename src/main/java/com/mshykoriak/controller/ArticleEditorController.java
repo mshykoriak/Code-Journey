@@ -31,12 +31,18 @@ public class ArticleEditorController {
     }
 
     @GetMapping("/admin/articles/edit")
-    public String addEditArticle(@RequestParam(name = "id", required = false) Long id, Model model) {
+    public String addEditArticle(@RequestParam(name = "id", required = false) Long id, @RequestParam(name = "continue", required = false) String continueParam, Model model) {
         Article article = null;
         if (id != null) {
             article = articleService.getArticleById(id).orElseThrow();
         } else {
             article = new Article();
+        }
+
+        if(continueParam != null) {
+            model.addAttribute("continueParam", "continue not null");
+        } else {
+            model.addAttribute("continueParam", "continue is null");
         }
         model.addAttribute("article", article);
         return "addArticle";

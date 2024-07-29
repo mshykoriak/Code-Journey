@@ -16,6 +16,7 @@
     <div class="grid-container">
         <%@ include file="admin/header.jsp" %>
         <div class="content">
+        <p>${continueParam}</p>
          <form:form method="POST" action="${pageContext.request.contextPath}/admin/articles/edit" modelAttribute="article" id="articleForm">
                 <form:input type="hidden" path="id" value="${article.id}"/>
                  <c:if test="${article.dateCreated != null}">
