@@ -18,5 +18,6 @@ public interface ArticleService {
     Article updateArticle(Article article);
     void deleteArticle(Long id);
     void publishArticle(Long id);
+    void draftArticle(Long id);
 
 }

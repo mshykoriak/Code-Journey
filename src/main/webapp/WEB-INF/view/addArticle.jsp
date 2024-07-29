@@ -18,6 +18,12 @@
         <div class="content">
          <form:form method="POST" action="${pageContext.request.contextPath}/admin/articles/edit" modelAttribute="article" id="articleForm">
                 <form:input type="hidden" path="id" value="${article.id}"/>
+                 <c:if test="${article.dateCreated != null}">
+                    <input type="hidden" name="dateCreated" value="${article.dateCreated}">
+                 </c:if>
+                 <c:if test="${article.datePublished != null}">
+                    <input type="hidden" name="datePublished" value="${article.datePublished}">
+                 </c:if>
                 <form:label path="title">Title</form:label><br>
                 <form:input path="title"/>
                 <form:errors path="title" cssClass="error"/><br>

@@ -9,9 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,16 +18,16 @@ import java.util.List;
  */
 @Controller
 public class ArticleEditorController {
-    private static final String ADD_ARTICLE_PAGE = "addArticle";
+
     private ArticleService articleService;
 
     @PostMapping("/admin/articles/edit")
     public String addArticle(@Valid @ModelAttribute("article") Article article, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
-            return ADD_ARTICLE_PAGE;
+            return "addArticle";
         }
         articleService.createArticle(article);
-        return "redirect:/articles?id=" + article.getId();
+        return "redirect:/admin/articles";
     }
 
     @GetMapping("/admin/articles/edit")
@@ -41,12 +39,18 @@ public class ArticleEditorController {
             article = new Article();
         }
         model.addAttribute("article", article);
-        return ADD_ARTICLE_PAGE;
+        return "addArticle";
     }
 
     @GetMapping("/admin/articles/publish")
-    public String publishArticle(@RequestParam(name = "id") Long id, Model model) {
+    public String publishArticle(@RequestParam(name = "id") Long id) {
         articleService.publishArticle(id);
+        return "redirect:/admin/articles";
+    }
+
+    @GetMapping("/admin/articles/draft")
+    public String draftArticle(@RequestParam(name = "id") Long id) {
+        articleService.draftArticle(id);
         return "redirect:/admin/articles";
     }
 
@@ -59,12 +63,13 @@ public class ArticleEditorController {
         return "admin/articles";
     }
 
-    @GetMapping("/articles")
+    @GetMapping("/article")
     public String readArticle(@RequestParam(name = "id") Long id, Model model) {
         Article article = articleService.getArticleById(id).orElseThrow();
         model.addAttribute("article", article);
         return "article";
     }
+
 
     @Autowired
     public void setArticleService(ArticleService articleService) {

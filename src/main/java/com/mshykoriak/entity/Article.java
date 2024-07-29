@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -24,7 +25,9 @@ public class Article {
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private Date dateCreated = new Date();
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date dateCreated;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date datePublished;
     private boolean inDraft = true;
 

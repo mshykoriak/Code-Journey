@@ -17,7 +17,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository repository;
 
-
     @Override
     public void publishArticle(Long id) {
         Article article = getArticleById(id).orElseThrow();
@@ -27,7 +26,24 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public void draftArticle(Long id) {
+        Article article = getArticleById(id).orElseThrow();
+        article.setInDraft(true);
+        article.setDatePublished(null);
+        repository.save(article);
+    }
+
+    @Override
     public void createArticle(Article article) {
+        if (article.getDateCreated() == null) {
+            article.setDateCreated(new Date());
+        }
+        if (article.getDatePublished() == null && !article.isInDraft()) {
+            article.setDatePublished(new Date());
+        }
+        if (article.getDatePublished() != null && article.isInDraft()) {
+            article.setDatePublished(null);
+        }
         repository.save(article);
     }
 
