@@ -34,15 +34,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void createArticle(Article article) {
+    public void saveArticle(Article article) {
         if (article.getDateCreated() == null) {
             article.setDateCreated(new Date());
         }
-        if (article.getDatePublished() == null && !article.isInDraft()) {
-            article.setDatePublished(new Date());
-        }
         if (article.getDatePublished() != null && article.isInDraft()) {
             article.setDatePublished(null);
+        }
+        if (!article.isInDraft()) {
+            if (article.getDatePublished() == null) {
+                article.setDatePublished(new Date());
+            }
+            article.setDateUpdated(new Date());
         }
         repository.save(article);
     }

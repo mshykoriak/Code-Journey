@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface ArticleService {
 
-    void createArticle(Article article);
+    void saveArticle(Article article);
     List<Article> getAllArticles();
     Optional<Article> getArticleById(Long id);
     Article updateArticle(Article article);

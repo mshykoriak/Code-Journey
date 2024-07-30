@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
  *
  * @author Misha Shykoriak
  */
-@Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 }

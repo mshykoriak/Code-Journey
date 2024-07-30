@@ -1,5 +1,6 @@
 package com.mshykoriak.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -18,6 +19,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class SecurityConfig {
 
+    @Value("${admin.username}")
+    private String adminUsername;
+    @Value("${admin.password}")
+    private String adminPassword;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
@@ -25,26 +30,22 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/admin/**")
                         .hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .requestCache((cache) -> cache.requestCache(requestCache));
         return http.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user = User.withUsername("user")
-//                            .password("{noop}user")
-//                            .roles("USER")
-//                            .build();
-//
-//        UserDetails admin = User.withUsername("admin")
-//                .password("{noop}admin")
-//                .roles("ADMIN")
-//                .build();
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails admin = User.withUsername(adminUsername)
+                            .password(adminPassword)
+                            .roles("ADMIN")
+                            .build();
+
+        return new InMemoryUserDetailsManager(admin);
+    }
 
 
 }

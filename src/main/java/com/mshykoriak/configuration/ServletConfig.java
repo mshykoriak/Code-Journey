@@ -32,5 +32,6 @@ public class ServletConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/admin/articles/edit/", "/admin/articles/edit");
+        registry.addRedirectViewController("/admin/articles/", "/admin/articles");
     }
 }

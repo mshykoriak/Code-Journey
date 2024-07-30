@@ -1,6 +1,8 @@
 package com.mshykoriak.controller;
 
+import com.mshykoriak.dto.ArticleDto;
 import com.mshykoriak.entity.Article;
+import com.mshykoriak.services.ArticleMapper;
 import com.mshykoriak.services.ArticleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,16 +20,18 @@ import java.util.List;
  * @author Misha Shykoriak
  */
 @Controller
-public class ArticleEditorController {
+public class ArticleController {
 
     private ArticleService articleService;
+    private ArticleMapper articleMapper;
 
     @PostMapping("/admin/articles/edit")
-    public String addArticle(@Valid @ModelAttribute("article") Article article, BindingResult bindingResult, Model model) {
+    public String addArticle(@Valid @ModelAttribute("article") ArticleDto article, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
             return "addArticle";
         }
-        articleService.createArticle(article);
+
+        articleService.saveArticle(articleMapper.toEntity(article));
         return "redirect:/admin/articles";
     }
 
@@ -39,12 +44,7 @@ public class ArticleEditorController {
             article = new Article();
         }
 
-        if(continueParam != null) {
-            model.addAttribute("continueParam", "continue not null");
-        } else {
-            model.addAttribute("continueParam", "continue is null");
-        }
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleMapper.toDto(article));
         return "addArticle";
     }
 
@@ -63,22 +63,28 @@ public class ArticleEditorController {
     @GetMapping("/admin/articles")
     public String showEditArticles(Model model) {
         List<Article> articles = articleService.getAllArticles();
-        articles.sort((Comparator.comparing(Article::getDateCreated).reversed()));
+        List<ArticleDto> articleDtos = new ArrayList<>();
+        articles.forEach(article -> articleDtos.add(articleMapper.toDto(article)));
+        articleDtos.sort((Comparator.comparing(ArticleDto::getDateCreated).reversed()));
 
-        model.addAttribute("articlesList", articles);
+        model.addAttribute("articlesList", articleDtos);
         return "admin/articles";
     }
 
     @GetMapping("/article")
-    public String readArticle(@RequestParam(name = "id") Long id, Model model) {
+    public String showArticle(@RequestParam(name = "id") Long id, Model model) {
         Article article = articleService.getArticleById(id).orElseThrow();
         model.addAttribute("article", article);
         return "article";
     }
 
-
     @Autowired
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
+    }
+
+    @Autowired
+    public void setArticleMapper(ArticleMapper articleMapper) {
+        this.articleMapper = articleMapper;
     }
 }
