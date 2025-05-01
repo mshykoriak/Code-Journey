@@ -3,6 +3,7 @@ package com.mshykoriak.configuration;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -10,14 +11,19 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 
-
+/**
+ * This is a configuration for the database. Also searches for services beans.
+ * @author Misha Shykoriak
+ * @since 1.0
+ */
+@Configuration
 @ComponentScan(basePackages = {"com.mshykoriak.repository", "com.mshykoriak.services"})
 @EnableJpaRepositories(basePackages = "com.mshykoriak.repository")
 public class RootConfig {
+
 
     @Bean
     public DataSource dataSource() {
@@ -29,23 +35,17 @@ public class RootConfig {
 
         return dataSource;
     }
-
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setShowSql(true);
         hibernateJpaVendorAdapter.setGenerateDdl(true);
         hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 
-        return hibernateJpaVendorAdapter;
-    }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource());
+        entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPackagesToScan("com.mshykoriak.entity");
-        entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+        entityManagerFactoryBean.setJpaVendorAdapter(hibernateJpaVendorAdapter);
 
         return entityManagerFactoryBean;
     }

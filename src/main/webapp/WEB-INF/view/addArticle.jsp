@@ -1,11 +1,10 @@
 <%@ page contentType = "text/html; charset = UTF-8" %>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
    <head>
       <title>Add article</title>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+        <script src="<c:url value='https://cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js'/>"></script>
    </head>
    <body class="flex flex-col min-h-screen">
 
@@ -24,6 +23,9 @@
            <h2 class="text-xl mb-4">Add New Article</h2>
            <form:form method="POST" action="${pageContext.request.contextPath}/admin/articles/edit" modelAttribute="article" id="articleForm" class="space-y-4">
                <form:input type="hidden" path="id" name="title" id="title" value="${article.id}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+               <form:input type="hidden" path="dateCreated" name="dateCreated" id="dateCreated" value="${article.dateCreated}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+               <form:input type="hidden" path="datePublished" name="datePublished" id="datePublished" value="${article.datePublished}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+               <form:input type="hidden" path="dateUpdated" name="dateUpdated" id="dateUpdated" value="${article.dateUpdated}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
                <div>
                    <label for="title" class="block text-sm font-medium text-gray-700">Title<label>
                    <form:input type="text" path="title" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
@@ -40,11 +42,11 @@
                    <span class="block text-sm font-medium text-gray-700">Category</span>
                    <div class="mt-1">
                        <label class="inline-flex items-center">
-                           <input type="radio" name="isInDraft" value="true" class="form-radio" <c:if test="${article.inDraft}">checked</c:if> >
+                           <input type="radio" name="inDraft" value="true" path="inDraft" class="form-radio" <c:if test="${article.inDraft}">checked</c:if> >
                            <span class="ml-2">Save to draft</span>
                        </label>
                        <label class="inline-flex items-center ml-6">
-                           <input type="radio" name="isInDraft" value="false" class="form-radio" <c:if test="${!article.inDraft}">checked</c:if>>
+                           <input type="radio" name="inDraft" value="false" path="inDraft" class="form-radio" <c:if test="${!article.inDraft}">checked</c:if>>
                            <span class="ml-2">Publish</span>
                        </label>
                    </div>
@@ -65,11 +67,66 @@
        </div>
 
        <script>
-           ClassicEditor
-               .create(document.querySelector('#editor'))
-               .catch(error => {
-                   console.error(error);
-               });
-       </script>
+                                 	CKEDITOR.replace( 'content', {
+                                 		toolbar: [
+                                 			{ name: 'clipboard', items: [ 'Undo', 'Redo' ] },
+                                 			{ name: 'styles', items: [ 'Styles', 'Format' ] },
+                                 			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
+                                 			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+                                 			{ name: 'links', items: [ 'Link', 'Unlink' ] },
+                                 			{ name: 'insert', items: [ 'Image', 'EmbedSemantic', 'Table' ] },
+                                 			{ name: 'tools', items: [ 'Maximize' ] },
+                                 			{ name: 'editing', items: [ 'Scayt' ] }
+                                 		],
+                                 		customConfig: '',
+                                 		extraPlugins: 'autoembed,embedsemantic,image2,uploadimage,uploadfile',
+                                 		removePlugins: 'image',
+                                 		height: 100 ,
+                                 		contentsCss: [ 'https://cdn.ckeditor.com/4.8.0/standard-all/contents.css', 'mystyles.css' ],
+                                 		bodyClass: 'article-editor',
+                                 		format_tags: 'p;h1;h2;h3;pre',
+                                 		removeDialogTabs: 'image:advanced;link:advanced',
+                                 		stylesSet: [
+                                 			/* Inline Styles */
+                                 			{ name: 'Marker',			element: 'span', attributes: { 'class': 'marker' } },
+                                 			{ name: 'Cited Work',		element: 'cite' },
+                                 			{ name: 'Inline Quotation',	element: 'q' },
+                                 			/* Object Styles */
+                                 			{
+                                 				name: 'Special Container',
+                                 				element: 'div',
+                                 				styles: {
+                                 					padding: '5px 10px',
+                                 					background: '#eee',
+                                 					border: '1px solid #ccc'
+                                 				}
+                                 			},
+                                 			{
+                                 				name: 'Compact table',
+                                 				element: 'table',
+                                 				attributes: {
+                                 					cellpadding: '5',
+                                 					cellspacing: '0',
+                                 					border: '1',
+                                 					bordercolor: '#ccc'
+                                 				},
+                                 				styles: {
+                                 					'border-collapse': 'collapse'
+                                 				}
+                                 			},
+                                 			{ name: 'Borderless Table',		element: 'table',	styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
+                                 			{ name: 'Square Bulleted List',	element: 'ul',		styles: { 'list-style-type': 'square' } },
+                                 			/* Widget Styles */
+                                 			// We use this one to style the brownie picture.
+                                 			{ name: 'Illustration', type: 'widget', widget: 'image', attributes: { 'class': 'image-illustration' } },
+                                 			// Media embed
+                                 			{ name: '240p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-240p' } },
+                                 			{ name: '360p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-360p' } },
+                                 			{ name: '480p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-480p' } },
+                                 			{ name: '720p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-720p' } },
+                                 			{ name: '1080p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-1080p' } }
+                                 		]
+                                 	} );
+                      </script>
    </body>
  </html>

@@ -16,8 +16,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * This controller should be used by admin to Add/Edit/Delete articles.
+ * This controller provides endpoints that should be used by admin to Add/Edit/Delete articles.
  * @author Misha Shykoriak
+ * @since 1.0
  */
 @Controller
 public class ArticleController {

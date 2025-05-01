@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Tag {
+public class Tag implements Comparable<Tag>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,5 +50,10 @@ public class Tag {
 
     public void setArticles(Set<Article> articles) {
         this.articles = articles;
+    }
+
+    @Override
+    public int compareTo(Tag o) {
+        return this.name.compareTo(o.name);
     }
 }

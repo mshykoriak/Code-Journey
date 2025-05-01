@@ -7,7 +7,6 @@ import com.mshykoriak.repository.TagRepository;
 import com.mshykoriak.services.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
@@ -28,7 +27,7 @@ public class ArticleMapperImpl implements ArticleMapper {
         articleDto.setInDraft(article.isInDraft());
 
         if (article.getTags() != null) {
-            articleDto.setTags(article.getTags().stream()
+            articleDto.setTags(article.getTags().stream().sorted()
                     .map(Tag::getName)
                     .reduce("", (s1, s2) -> s1.concat(" ").concat(s2)));
         }
@@ -55,7 +54,6 @@ public class ArticleMapperImpl implements ArticleMapper {
                 entity.getArticles().add(article);
             }
             article.getTags().add(entity);
-
         }
         return article;
     }

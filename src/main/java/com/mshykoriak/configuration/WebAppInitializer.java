@@ -1,7 +1,14 @@
 package com.mshykoriak.configuration;
 
+import jakarta.servlet.Filter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * This initializer configures root and servlet contexts.
+ * @author Misha Shykoriak
+ * @since 1.0
+ */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
@@ -18,4 +25,5 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[] {"/"};
     }
+
 }

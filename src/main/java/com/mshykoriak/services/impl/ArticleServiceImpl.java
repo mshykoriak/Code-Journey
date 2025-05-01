@@ -41,12 +41,10 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getDatePublished() != null && article.isInDraft()) {
             article.setDatePublished(null);
         }
-        if (!article.isInDraft()) {
-            if (article.getDatePublished() == null) {
-                article.setDatePublished(new Date());
-            }
-            article.setDateUpdated(new Date());
+        if (!article.isInDraft() && article.getDatePublished() == null) {
+            article.setDatePublished(new Date());
         }
+        article.setDateUpdated(new Date());
         repository.save(article);
     }
 
