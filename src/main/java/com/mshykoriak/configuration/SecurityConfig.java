@@ -27,7 +27,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @since 1.0
  */
 @Configuration
-@EnableWebMvc
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -38,8 +37,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        Logger logger = LoggerFactory.getLogger(getClass());
-        logger.info("Initializing springSecurityFilterChain");
         HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
         requestCache.setMatchingRequestParameterName(null); // no need for "continue" url parameter
 
