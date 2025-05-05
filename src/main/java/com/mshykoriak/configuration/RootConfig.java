@@ -16,14 +16,16 @@ import javax.sql.DataSource;
 
 /**
  * This is a configuration for the database. Also searches for services beans.
+ * With @Configuration, Spring creates a proxy of the configuration class.
+ * This proxy intercepts calls to @Bean methods, ensuring that each bean is instantiated only once
+ * and the same instance is returned upon subsequent calls. This mechanism preserves the singleton nature of beans in the Spring context.
  * @author Misha Shykoriak
  * @since 1.0
  */
-@Configuration
+@Configuration //prevents multiple instantiation of the bean
 @ComponentScan(basePackages = {"com.mshykoriak.repository", "com.mshykoriak.services"})
 @EnableJpaRepositories(basePackages = "com.mshykoriak.repository")
 public class RootConfig {
-
 
     @Bean
     public DataSource dataSource() {
@@ -36,14 +38,14 @@ public class RootConfig {
         return dataSource;
     }
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setShowSql(true);
         hibernateJpaVendorAdapter.setGenerateDdl(true);
         hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
+        entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan("com.mshykoriak.entity");
         entityManagerFactoryBean.setJpaVendorAdapter(hibernateJpaVendorAdapter);
 

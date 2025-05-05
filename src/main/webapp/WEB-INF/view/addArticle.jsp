@@ -28,7 +28,7 @@
                <form:input type="hidden" path="dateUpdated" name="dateUpdated" id="dateUpdated" value="${article.dateUpdated}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
                <div>
                    <label for="title" class="block text-sm font-medium text-gray-700">Title<label>
-                   <form:input type="text" path="title" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+                   <form:input type="text" path="title" name="title" id="title"  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
                </div>
                <div>
                    <label for="description" class="block text-sm font-medium text-gray-700">Short Description<label>
@@ -82,7 +82,7 @@
                                  		extraPlugins: 'autoembed,embedsemantic,image2,uploadimage,uploadfile',
                                  		removePlugins: 'image',
                                  		height: 100 ,
-                                 		contentsCss: [ 'https://cdn.ckeditor.com/4.8.0/standard-all/contents.css', 'mystyles.css' ],
+                                 		contentsCss: [ 'https://cdn.ckeditor.com/4.8.0/standard-all/contents.css'],
                                  		bodyClass: 'article-editor',
                                  		format_tags: 'p;h1;h2;h3;pre',
                                  		removeDialogTabs: 'image:advanced;link:advanced',
