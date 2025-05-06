@@ -1,5 +1,6 @@
 package com.mshykoriak.services;
 
+import com.mshykoriak.dto.ArticleDto;
 import com.mshykoriak.entity.Article;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public interface ArticleService {
 
     void saveArticle(Article article);
+    void saveArticle(ArticleDto articleDto);
     List<Article> getAllArticles();
     Optional<Article> getArticleById(Long id);
     Article updateArticle(Article article);

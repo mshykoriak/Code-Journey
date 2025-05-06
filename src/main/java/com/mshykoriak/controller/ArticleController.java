@@ -32,7 +32,7 @@ public class ArticleController {
             return "addArticle";
         }
 
-        articleService.saveArticle(articleMapper.toEntity(article));
+        articleService.saveArticle(article);
         return "redirect:/admin/articles";
     }
 

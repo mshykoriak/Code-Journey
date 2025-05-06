@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
@@ -25,6 +26,7 @@ import javax.sql.DataSource;
 @Configuration //prevents multiple instantiation of the bean
 @ComponentScan(basePackages = {"com.mshykoriak.repository", "com.mshykoriak.services"})
 @EnableJpaRepositories(basePackages = "com.mshykoriak.repository")
+@EnableTransactionManagement //@Transactional will not work without this annotation
 public class RootConfig {
 
     @Bean

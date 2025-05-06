@@ -5,12 +5,14 @@ import com.mshykoriak.entity.Article;
 import com.mshykoriak.entity.Tag;
 import com.mshykoriak.repository.TagRepository;
 import com.mshykoriak.services.ArticleMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
 @Component
+@Transactional
 public class ArticleMapperImpl implements ArticleMapper {
 
     private TagRepository tagRepository;

@@ -1,10 +1,16 @@
 <%@ page contentType = "text/html; charset = UTF-8" %>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
    <head>
       <title>Add article</title>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <script src="<c:url value='https://cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js'/>"></script>
+        <style>
+        .error {
+            color:red;
+         }
+        </style>
    </head>
    <body class="flex flex-col min-h-screen">
 
@@ -29,14 +35,17 @@
                <div>
                    <label for="title" class="block text-sm font-medium text-gray-700">Title<label>
                    <form:input type="text" path="title" name="title" id="title"  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+                   <form:errors path="title" cssClass="error"/>
                </div>
                <div>
                    <label for="description" class="block text-sm font-medium text-gray-700">Short Description<label>
                    <form:input type="text" path="description" name="description" id="description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+                   <form:errors path="description" cssClass="error"/>
                </div>
                <div>
                    <label for="tag" class="block text-sm font-medium text-gray-700">Tags<label>
                    <form:input type="text" path="tags" name="tag" id="tag" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+                   <form:errors path="tags" cssClass="error"/>
                </div>
                <div>
                    <span class="block text-sm font-medium text-gray-700">Category</span>
@@ -54,6 +63,7 @@
                <div>
                    <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
                    <form:textarea name="content" path="content" id="editor" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
+                   <form:errors path="content" cssClass="error"/>
                </div>
                <div>
                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>

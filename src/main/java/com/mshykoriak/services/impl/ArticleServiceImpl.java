@@ -1,7 +1,9 @@
 package com.mshykoriak.services.impl;
 
+import com.mshykoriak.dto.ArticleDto;
 import com.mshykoriak.entity.Article;
 import com.mshykoriak.repository.ArticleRepository;
+import com.mshykoriak.services.ArticleMapper;
 import com.mshykoriak.services.ArticleService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,13 @@ import java.util.Optional;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository repository;
+    private ArticleMapper articleMapper;
 
     @Override
     public void publishArticle(Long id) {
         Article article = getArticleById(id).orElseThrow();
         article.setInDraft(false);
         article.setDatePublished(new Date());
-        repository.save(article);
     }
 
     @Override
@@ -30,7 +32,6 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = getArticleById(id).orElseThrow();
         article.setInDraft(true);
         article.setDatePublished(null);
-        repository.save(article);
     }
 
     @Override
@@ -46,6 +47,12 @@ public class ArticleServiceImpl implements ArticleService {
         }
         article.setDateUpdated(new Date());
         repository.save(article);
+    }
+
+    @Override
+    public void saveArticle(ArticleDto articleDto) {
+        Article article = articleMapper.toEntity(articleDto);
+        saveArticle(article);
     }
 
     @Override
@@ -72,5 +79,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     public void setRepository(ArticleRepository repository) {
         this.repository = repository;
+    }
+
+    @Autowired
+    public void setArticleMapper(ArticleMapper articleMapper) {
+        this.articleMapper = articleMapper;
     }
 }
